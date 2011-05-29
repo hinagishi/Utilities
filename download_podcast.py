@@ -2,6 +2,13 @@ import os
 import sys
 import urllib
 import re
+import datetime
+
+def downloadURI(uri):
+	date = datetime.datetime.now()
+	date = str(date.time())
+	urllib.urlretrieve(uri, date)
+	return date
 
 def createFileList(sourcefile):
 	file = open(sourcefile, 'r')
@@ -19,13 +26,20 @@ def createFileList(sourcefile):
 	return filelist
 
 def downloadFiles(filelist):
+	print "Download " + str(len(filelist)) + " files."
 	for targets in filelist:
 		if os.path.exists(targets[1]) == False:
+			print "Downloading " + targets[1]
 			urllib.urlretrieve(targets[0], targets[1])
+		else:
+			print targets[1] + " is exists."
 
 
 if __name__ == "__main__":
 	args = sys.argv
-	filelist = createFileList(args[1])
+	baseFile = downloadURI(args[1])
+	filelist = createFileList(baseFile)
 	downloadFiles(filelist)
+	os.remove(baseFile)
+	print "Done."
 
