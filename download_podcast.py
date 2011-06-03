@@ -37,6 +37,10 @@ def downloadFiles(filelist):
 
 if __name__ == "__main__":
 	args = sys.argv
+	argc = len(args)
+	if argc != 2:
+		print "Usage: python download_podcast.py URL"
+
 	baseFile = downloadURI(args[1])
 	filelist = createFileList(baseFile)
 	downloadFiles(filelist)
